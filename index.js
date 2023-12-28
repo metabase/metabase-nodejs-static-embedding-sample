@@ -8,14 +8,14 @@ const METABASE_SITE_URL = process.env.METABASE_SITE_URL || 'http://localhost:300
 const METABASE_EMBED_DASHBOARD_ID= parseInt(process.env.METABASE_EMBED_DASHBOARD_ID);
 
 app.get('/', (req, res) => {
-  var payload = {
+  const payload = {
     resource: { dashboard: METABASE_EMBED_DASHBOARD_ID },
     params: {},
     exp: Math.round(Date.now() / 1000) + (10 * 60) // 10 minute expiration
   };
-  var token = jwt.sign(payload, METABASE_EMBEDDING_SECRET);
+  const token = jwt.sign(payload, METABASE_EMBEDDING_SECRET);
 
-  var iframeUrl = new URL("/embed/dashboard/" + token, METABASE_SITE_URL);
+  const iframeUrl = new URL("/embed/dashboard/" + token, METABASE_SITE_URL);
   iframeUrl.hash = "bordered=true&titled=true";
   res.send(
     `<iframe src="${iframeUrl}" frameborder="0" width="1280" height="1000" allowtransparency></iframe>`
